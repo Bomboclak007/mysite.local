@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { // проверк отпр форм
     $base2 = (float)$_POST['base2'];
     $height = (float)$_POST['height'];
     class Prism {
-        public $height; // поле клас
+        public $height;
         public function __construct($height) {         // констр для инцилз
             $this->height = $height; // устн выс
         }
