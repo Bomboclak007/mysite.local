@@ -3,40 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Объем призмы</title>
+    <title>Вычисление объёма призмы</title>
 </head>
 <body>
-<h1>Вычисление объема призмы</h1>
-<form method="post">
-    <label for="base1">Длина первого катета (основания) прямоугольного треугольника:</label><br>
-    <input type="number" name="base1" id="base1" required><br><br>
-    <label for="base2">Длина второго катета (высоты) прямоугольного треугольника:</label><br>
-    <input type="number" name="base2" id="base2" required><br><br>
-    <label for="height">Высота призмы:</label><br>
-    <input type="number" name="height" id="height" required><br><br>
-    <input type="submit" value="Вычислить объем">
+<h1>Вычисление объёма призмы с основанием в виде прямоугольного треугольника</h1>
+
+<form method="post" action="">
+    <label for="a">Длина первого катета (a):</label>
+    <input type="number" step="0.01" name="a" id="a" required><br><br>
+    <label for="b">Длина второго катета (b):</label>
+    <input type="number" step="0.01" name="b" id="b" required><br><br>
+    <label for="height">Высота призмы:</label>
+    <input type="number" step="0.01" name="height" id="height" required><br><br>
+
+    <input type="submit" value="Вычислить объём">
 </form>
 
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") { // проверк отпр форм
-    $base1 = (float)$_POST['base1']; // перемен с плач точкой
-    $base2 = (float)$_POST['base2'];
-    $height = (float)$_POST['height'];
-    class Prism {
-        public $height;
-        public function __construct($height) {         // констр для инцилз
-            $this->height = $height; // устн выс
-        }
-        public function calculateVolume($base1, $base2) {       // вычсл объем
-            $baseArea = ($base1 * $base2) / 2;
-            $volume = $baseArea * $this->height;
-            return $volume;
-        }
-    }
 
-    $prism = new Prism($height);     // созд обкт клас призм
-    $volume = $prism->calculateVolume($base1, $base2);   // объем призм
-    echo "<h2>Объем призмы с прямоугольным треугольником в основании: " . $volume . "</h2>";
+class RightTriangle {
+    protected $a; // перв кат
+    protected $b; // вт катет
+    public function __construct(float $a, float $b) { //конструк для инцл катет
+        $this->a = $a;
+        $this->b = $b;
+    }
+    public function baseArea(): float {    //метд для вычисл площ осн
+        return ($this->a * $this->b) / 2.0; // площадь
+    }
+}
+class Prism extends RightTriangle {          //клас-потомок призм с основ в виде прямоугл угол
+    protected $height; // высота
+    public function __construct(float $a, float $b, float $height) { // конст для инцлиаз катет выст
+        parent::__construct($a, $b); // вызов конст род клс Вызов конструктора родительского класса
+        $this->height = $height; // инцлз выс
+    }
+    public function volume(): float { // метд для вычсл об призм
+        return $this->baseArea() * $this->height; // формула
+    }
+}
+
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {     // пров запрос методом post
+    $a = (float)$_POST['a']; // получ знач первг кат из форм и преоб в чсл с плав запят
+    $b = (float)$_POST['b'];
+    $height = (float)$_POST['height']; // получ знач выст из форм и преоб в
+    $prism = new Prism($a, $b, $height);
+    echo "<h2>Объём призмы: " . $prism->volume() . "</h2>";
 }
 ?>
 </body>
