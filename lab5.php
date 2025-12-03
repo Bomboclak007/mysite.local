@@ -1,28 +1,23 @@
 <?php
 
 class Exam {
-
     private $discipline;
     private $numberOfStudents;
     private $duration;
-
     // констр клас инцлз свойств
     public function __construct($discipline, $numberOfStudents, $duration) {
         $this->discipline = $discipline;
         $this->numberOfStudents = $numberOfStudents;
         $this->duration = $duration; // устн продл экз
     }
-
     // раст качств
     public function calculateQuality() {
         return $this->numberOfStudents / $this->duration; // отнш студ к врм
     }
-
     // раст 2 ек
     public function calculateFailPercentage($failCount) {
         return ($failCount / $this->numberOfStudents) * 100; // двойки
     }
-
     // поля кчств
     public function calculateQualityField($failCount) {
         $Q = $this->calculateQuality(); //качств
@@ -30,9 +25,7 @@ class Exam {
         return $Q * (100 - $P) / 100; // Возвращаем поле качества с учетом двоек
     }
 }
-
 $result = null;
-
 // Провр пост зпр
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // даные форм
@@ -40,15 +33,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $numberOfStudents = (int)$_POST['number_of_students']; // кол студ в целку
     $duration = (float)$_POST['duration']; // продл экз преоб чсл плав запятая
     $failCount = (int)$_POST['fail_count']; // кол двоек целка
-
     // созд нов обкт ехам
     $exam = new Exam($discipline, $numberOfStudents, $duration);
-
     // сохр результ масив
     $result = [
-            'Q' => $exam->calculateQuality(), // Q
-            'P' => $exam->calculateFailPercentage($failCount), // P
-            'R' => $exam->calculateQualityField($failCount) //  R
+            'Q' => $exam->calculateQuality(),
+            'P' => $exam->calculateFailPercentage($failCount),
+            'R' => $exam->calculateQualityField($failCount)
     ];
 }
 ?>
@@ -61,8 +52,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 <h1>Расчет качества экзамена</h1>
-
-
 <form method="post">
     <label>Дисциплина: <input type="text" name="discipline" required></label><br>
     <label>Число студентов: <input type="number" name="number_of_students" required></label><br>
@@ -70,7 +59,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <label>Количество двоек: <input type="number" name="fail_count" required></label><br>
     <input type="submit" value="Рассчитать">
 </form>
-
 <?php if ($result): ?>
     <h2>Результаты:</h2>
     <p>Дисциплина: <?= htmlspecialchars($discipline) ?></p>
