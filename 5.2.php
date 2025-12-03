@@ -22,23 +22,23 @@
 <?php
 
 class RightTriangle {
-    protected $a; // перв кат
+    protected $a; 
     protected $b; // вт катет
     public function __construct(float $a, float $b) { //конструк для инцл катет
         $this->a = $a;
         $this->b = $b;
     }
-    public function baseArea(): float {    //метд для вычисл площ осн
+    public function baseArea(): float {    
         return ($this->a * $this->b) / 2.0; // площадь
     }
 }
 class Prism extends RightTriangle {          //клас-потомок призм с основ в виде прямоугл угол
-    protected $height; // высота
+    protected $height; 
     public function __construct(float $a, float $b, float $height) { // конст для инцлиаз катет выст
-        parent::__construct($a, $b); // вызов конст род клс Вызов конструктора родительского класса
-        $this->height = $height; // инцлз выс
+        parent::__construct($a, $b); // вызов конст род клс
+        $this->height = $height; 
     }
-    public function volume(): float { // метд для вычсл об призм
+    public function volume(): float { 
         return $this->baseArea() * $this->height; // формула
     }
 }
